@@ -64,12 +64,16 @@ $result = $stmt->get_result();
                     }
 
                     // Kosárba rakom gomb
-                    echo "<form method='POST' action='cart.php'>";
-                    echo "<input type='hidden' name='id' value='" . htmlspecialchars($row["id"]) . "'>";
-                    echo "<input type='hidden' name='nev' value='" . htmlspecialchars($row["nev"]) . "'>";
-                    echo "<input type='hidden' name='ar' value='" . htmlspecialchars($row["ar"]) . "'>";
-                    echo "<button type='submit' class='add-to-cart'>Kosárba rakom</button>";
-                    echo "</form>";
+                    if ($row["keszlet"] > 0) {
+                        echo "<form method='POST' action='cart.php'>";
+                        echo "<input type='hidden' name='id' value='" . htmlspecialchars($row["id"]) . "'>";
+                        echo "<input type='hidden' name='nev' value='" . htmlspecialchars($row["nev"]) . "'>";
+                        echo "<input type='hidden' name='ar' value='" . htmlspecialchars($row["ar"]) . "'>";
+                        echo "<button type='submit' class='add-to-cart'>Kosárba rakom</button>";
+                        echo "</form>";
+                    } else {
+                        echo "<p style='color: red;'>Nincs készleten!</p>";
+                    }
 
                     echo "</div>";
                 }
