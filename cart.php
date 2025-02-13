@@ -1,6 +1,14 @@
 <?php
 session_start();
 
+// Termék eltávolítása a kosárból
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove_id'])) {
+    $remove_id = $_POST['remove_id'];
+    unset($_SESSION['kosar'][$remove_id]);
+    header("Location: cart.php"); // Frissítjük az oldalt
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $id = $_POST['id'];
     $nev = $_POST['nev'];
@@ -37,7 +45,6 @@ if (isset($_SESSION['kosar']) && !empty($_SESSION['kosar'])) {
         echo "<input type='hidden' name='remove_id' value='" . htmlspecialchars($id) . "'>";
         echo "<button type='submit' class='remove-from-cart'>Eltávolítás</button>";
         echo "</form>";
-
     }
 
     echo "<p>Végösszeg: $total Ft</p>";
@@ -45,15 +52,6 @@ if (isset($_SESSION['kosar']) && !empty($_SESSION['kosar'])) {
 } else {
     echo "<p>A kosár üres.</p>";
 }
-
-// Termék eltávolítása a kosárból
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['remove_id'])) {
-    $remove_id = $_POST['remove_id'];
-    unset($_SESSION['kosar'][$remove_id]);
-    header("Location: cart.php"); // Frissítjük az oldalt
-    exit();
-}
-
 ?>
 
 <a href="index.php">Vissza a főoldalra</a>
